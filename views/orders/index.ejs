@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') -%>
+
+<h2 style="margin-bottom:1rem;">My Orders</h2>
+
+<% if (!orders.length) { %>
+  <p>You have no orders yet.</p>
+<% } else { %>
+  <% orders.forEach(o => { %>
+    <div class="card" style="margin-bottom:1rem; width:100%;">
+      <div><strong>Order #<%= o._id.toString().slice(-6) %></strong> — <em><%= o.status %></em></div>
+      <div>Placed: <%= new Date(o.createdAt).toLocaleString() %></div>
+      <ul style="margin-left: 1.2rem; margin-top: 0.5rem;">
+        <% o.items.forEach(i => { %>
+          <li><%= i.title %> × <%= i.quantity %> — ₹<%= (i.price * i.quantity).toFixed(2) %></li>
+        <% }) %>
+      </ul>
+      <div class="price" style="margin-top: 0.5rem;">Total: ₹<%= o.totalAmount.toFixed(2) %></div>
+    </div>
+  <% }) %>
+<% } %>

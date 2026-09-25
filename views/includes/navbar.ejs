@@ -1,0 +1,18 @@
+<header>
+  <div class="logo">📚 Online Book Store</div>
+  <nav id="nav-links">
+    <a href="/books">Browse</a>
+    <a href="/cart">Cart (<span id="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>)</a>
+    <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+      <a href="/orders">My Orders</a>
+      <% if (currentUser.role === 'admin') { %>
+        <a href="/orders/admin">Admin</a>
+      <% } %>
+      <span>Hi, <%= currentUser.name %></span>
+      <a href="/auth/logout" style="background:#b3261e; padding: 0.3rem 0.6rem; border-radius: 4px;">Logout</a>
+    <% } else { %>
+      <a href="/auth/login">Login</a>
+      <a href="/auth/register">Register</a>
+    <% } %>
+  </nav>
+</header>

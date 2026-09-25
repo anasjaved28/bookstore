@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="search-bar">
+  <form action="/books" method="GET" style="display:flex; gap:0.5rem; width:100%; flex-wrap:wrap;">
+    <input type="text" name="q" placeholder="Search by title, author, or category..." value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+    <select name="category" onchange="this.form.submit()">
+      <option value="">All Categories</option>
+      <% if (typeof categories !== 'undefined') { %>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat %>" <%= typeof selectedCategory !== 'undefined' && selectedCategory === cat ? 'selected' : '' %>><%= cat %></option>
+        <% }) %>
+      <% } %>
+    </select>
+    <button type="submit" class="primary">Search</button>
+  </form>
+</div>
+
+<% if (!books.length) { %>
+  <p>No books found.</p>
+<% } else { %>
+  <div class="grid">
+    <% books.forEach(b => { %>
+      <div class="card">
+        <img src="<%= b.imageUrl || 'https://via.placeholder.com/220x160?text=Book+Cover' %>" alt="<%= b.title %>">
+        <h3><%= b.title %></h3>
+        <div class="author">by <%= b.author %></div>
+        <div class="stock"><%= b.stock > 0 ? `${b.stock} in stock` : 'Out of stock' %></div>
+        <div class="price">₹<%= b.price.toFixed(2) %></div>
+        
+        <% if (b.stock > 0) { %>
+          <form action="/cart/add/<%= b._id %>" method="POST">
+            <button type="submit" class="secondary">Add to Cart</button>
+          </form>
+        <% } else { %>
+          <button class="secondary" disabled style="opacity:0.6;">Unavailable</button>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+<% } %>

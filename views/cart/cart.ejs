@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') -%>
+
+<h2 style="margin-bottom:1rem;">Your Cart</h2>
+
+<% if (!cartItems || cartItems.length === 0) { %>
+  <p>Your cart is empty. <a href="/books">Browse books</a>.</p>
+<% } else { %>
+  <div id="cart-items-container">
+    <% cartItems.forEach(item => { %>
+      <div class="cart-row">
+        <div>
+          <strong><%= item.title %></strong><br>
+          ₹<%= item.price.toFixed(2) %> each
+        </div>
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <form action="/cart/update/<%= item.bookId %>" method="POST" style="display:flex; gap:0.4rem; align-items:center;">
+            <input type="number" name="quantity" min="1" max="<%= item.maxStock %>" value="<%= item.quantity %>" style="width:60px; padding:0.3rem;">
+            <button type="submit" class="secondary" style="padding:0.3rem 0.6rem; font-size:0.85rem;">Update</button>
+          </form>
+          <form action="/cart/remove/<%= item.bookId %>" method="POST">
+            <button type="submit" class="secondary" style="background:#b3261e; padding:0.3rem 0.6rem; font-size:0.85rem;">Remove</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="total-line">
+    <span>Total</span>
+    <span id="cart-total">₹<%= totalAmount.toFixed(2) %></span>
+  </div>
+
+  <div id="checkout-section" style="margin-top:1.5rem;">
+    <% if (currentUser) { %>
+      <form class="stacked" action="/orders" method="POST">
+        <label for="shippingAddress">Shipping Address</label>
+        <textarea id="shippingAddress" name="shippingAddress" rows="2" required><%= currentUser.address || '' %></textarea>
+        <button type="submit" class="primary" style="margin-top:0.5rem;">Place Order</button>
+      </form>
+    <% } else { %>
+      <p>Please <a href="/auth/login">login</a> to check out.</p>
+    <% } %>
+  </div>
+<% } %>

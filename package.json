@@ -1,0 +1,21 @@
+{
+  "name": "bookstore-ssr",
+  "version": "2.0.0",
+  "description": "Bookstore app using Express, Mongoose, EJS and ejs-mate",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed:admin": "node init/seedAdmin.js",
+    "seed:books": "node init/seedBooks.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.3.1"
+  }
+}
